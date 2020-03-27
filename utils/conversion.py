@@ -76,5 +76,5 @@ def hexlist2hexstr(hexlist, offset):
     string = ""
     for i in range(len(hexlist)):
         for j in range(len(hexlist[i])):
-            string += convert_to_hex(hexlist[i][j], 10)
+            string += pad(convert_to_hex(hexlist[i][j], 10),2)
     return string
