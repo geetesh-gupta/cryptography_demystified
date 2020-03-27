@@ -15,7 +15,6 @@ def main():
         pprint(0, "Cipher", ciphertext)
 
         plaintext = des.decrypt(ciphertext, key)
-        des.encrypt(ciphertext, key)
         pprint(0, "PlainText", plaintext)
 
         if plaintext == msg:
@@ -29,6 +28,10 @@ def main():
         ciphertext = aes.encrypt(msg, key)
         pprint(0, "Cipher", ciphertext)
 
+        plaintext = aes.decrypt(ciphertext, key)
+        pprint(0, "PlainText", plaintext)
 
+        if plaintext == msg:
+            pprint(0, "Plaintext is equal to Msg")
 if __name__ == "__main__":
     main()
