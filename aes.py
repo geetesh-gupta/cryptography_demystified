@@ -187,6 +187,47 @@ def encrypt_bytes(data, master_key):
     return transpose(bytes_matrix)
 
 
+def decrypt_bytes(data, master_key):
+    if isinstance(data, str):
+        data = hexstr2hexlist(data, 2)
+    pprint(2, "Input data", hexprint(data))
+
+    if isinstance(master_key, str):
+        master_key = hexstr2hexlist(master_key, 2)
+    pprint(2, "Input key", hexprint(master_key))
+
+    bytes_matrix = transpose(bytes2matrix(data))
+    pprint(1, "Bytes matrix", hexprint(bytes_matrix))
+
+    round_keys = expand_key(master_key)
+    pprint(1, "Round Keys", hexprint(round_keys))
+
+    pprint(1)
+    add_round_key(bytes_matrix, round_keys[ROUNDS_NUM])
+    pprint(1, "Initial AddRoundKey", hexprint(bytes_matrix))
+    pprint(1)
+
+    for i in range(1, ROUNDS_NUM):
+        shift_rows(bytes_matrix, "inverse")
+        pprint(1, "InvShifted Bytes matrix", hexprint(bytes_matrix))
+        sub_bytes_matrix(bytes_matrix, INV_S_BOX)
+        pprint(1, "InvSubstituted Bytes matrix", hexprint(bytes_matrix))
+        add_round_key(bytes_matrix, round_keys[ROUNDS_NUM - i])
+        pprint(1, "Round Keys msg matrix", hexprint(bytes_matrix))
+        mix_columns(bytes_matrix, "inverse")
+        pprint(1, "InvMixed msg matrix", hexprint(bytes_matrix))
+        pprint(1)
+
+    shift_rows(bytes_matrix, "inverse")
+    pprint(1, "InvShifted Bytes matrix", hexprint(bytes_matrix))
+    sub_bytes_matrix(bytes_matrix, INV_S_BOX)
+    pprint(1, "InvSubstituted Bytes matrix", hexprint(bytes_matrix))
+    add_round_key(bytes_matrix, round_keys[0])
+    pprint(1, "Round Keys msg matrix", hexprint(bytes_matrix))
+    pprint(1)
+
+    return transpose(bytes_matrix)
+
 
 def encrypt(msg, master_key):
     ciphertext = ""
@@ -196,3 +237,13 @@ def encrypt(msg, master_key):
         pprint(1, "Cipher Matrix", hexprint(cipher_matrix))
         ciphertext += hexlist2hexstr(cipher_matrix, 2)
     return ciphertext
+
+
+def decrypt(msg, master_key):
+    plaintext = ""
+    for i in range(0, len(msg), 128):
+        msg_part = msg[i:i + 128]
+        plain_matrix = decrypt_bytes(msg_part, master_key)
+        plaintext += hexlist2hexstr(plain_matrix, 2)
+    pprint(1, "Plain Matrix", plaintext)
+    return plaintext
