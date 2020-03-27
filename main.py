@@ -2,6 +2,7 @@ import sys
 import des
 import aes
 import vernam
+import caesar
 from utils.pprint import pprint
 
 
@@ -32,6 +33,11 @@ def main():
         run("RAMSWARUPK",
             "RANCHOBABA",
             vernam)
+
+    elif sys.argv[1] == "caesar":
+        run("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            23,
+            caesar)
 
 
 if __name__ == "__main__":
