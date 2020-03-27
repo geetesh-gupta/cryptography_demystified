@@ -186,7 +186,6 @@ def encrypt_bytes(data, master_key):
 
     return transpose(bytes_matrix)
 
-    return bytes_matrix
 
 
 def encrypt(msg, master_key):
