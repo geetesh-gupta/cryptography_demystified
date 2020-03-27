@@ -13,3 +13,11 @@ python3 main.py des
 `
 python3 main.py aes
 `
+- Test for Vernam:
+`
+python3 main.py vernam
+`
+- Test for Caesar:
+`
+python3 main.py caesar
+`
