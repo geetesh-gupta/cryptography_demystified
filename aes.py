@@ -182,6 +182,9 @@ def encrypt_bytes(data, master_key):
     pprint(1, "Shifted Bytes matrix", hexprint(bytes_matrix))
     add_round_key(bytes_matrix, round_keys[ROUNDS_NUM])
     pprint(1, "Round Keys msg matrix", hexprint(bytes_matrix))
+    pprint(1)
+
+    return transpose(bytes_matrix)
 
     return bytes_matrix
 
@@ -191,6 +194,6 @@ def encrypt(msg, master_key):
     for i in range(0, len(msg), 128):
         msg_part = msg[i:i + 128]
         cipher_matrix = encrypt_bytes(msg_part, master_key)
+        pprint(1, "Cipher Matrix", hexprint(cipher_matrix))
         ciphertext += hexlist2hexstr(cipher_matrix, 2)
-    pprint(1, "Cipher Matrix", ciphertext)
     return ciphertext
