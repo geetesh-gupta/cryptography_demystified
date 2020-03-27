@@ -1,6 +1,7 @@
 import sys
 import des
 import aes
+import vernam
 from utils.pprint import pprint
 
 
@@ -27,6 +28,10 @@ def main():
         run("0123456789abcdeffedcba9876543210",
             "0f1571c947d9e8590cb7add6af7f6798",
             aes)
+    elif sys.argv[1] == "vernam":
+        run("RAMSWARUPK",
+            "RANCHOBABA",
+            vernam)
 
 
 if __name__ == "__main__":
